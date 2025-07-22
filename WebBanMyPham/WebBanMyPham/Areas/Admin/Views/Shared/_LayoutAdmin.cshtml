@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản trị - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #2a9d8f, #264653);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            transition: width 0.3s;
+            padding-top: 15px;
+        }
+
+            .sidebar.collapsed {
+                width: 80px;
+            }
+
+            .sidebar .nav-link {
+                color: white;
+                padding: 10px 15px;
+                display: flex;
+                align-items: center;
+                transition: 0.3s;
+            }
+
+                .sidebar .nav-link:hover {
+                    background: #e76f51;
+                }
+
+            .sidebar i {
+                width: 30px;
+                text-align: center;
+            }
+
+            .sidebar.collapsed .nav-text {
+                display: none;
+            }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            transition: margin-left 0.3s;
+        }
+
+        .collapsed + .content-wrapper {
+            margin-left: 80px;
+            width: calc(100% - 80px);
+        }
+
+        .header {
+            background: #2a9d8f;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            height: 60px;
+            transition: left 0.3s, width 0.3s;
+            z-index: 1000;
+        }
+
+        .collapsed + .content-wrapper .header {
+            left: 80px;
+            width: calc(100% - 80px);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 80px 20px 20px; /* Để tránh header che nội dung */
+            overflow-y: auto;
+        }
+
+        .footer {
+            background: #264653;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            transition: left 0.3s, width 0.3s;
+        }
+
+        .collapsed + .content-wrapper .footer {
+            left: 80px;
+            width: calc(100% - 80px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <a class="nav-link" href="@Url.Action("Index", "Admin")"><i class="fas fa-home"></i><span class="nav-text"> Trang chủ</span></a>
+        <a class="nav-link" href="@Url.Action("SanPham", "QLSanPham", new { area = "Admin" })"><i class="fas fa-box"></i><span class="nav-text"> Sản phẩm</span></a>
+        <a class="nav-link" href="@Url.Action("DanhSachDonHang", "QLDonHang", new { area = "Admin" })"><i class="fas fa-shopping-cart"></i><span class="nav-text"> Đơn hàng</span></a>
+        <a class="nav-link" href="@Url.Action("Loai", "QLSanPham", new { area = "Admin" })"><i class="fas fa-tags"></i><span class="nav-text"> Loại sản phẩm</span></a>
+        <a class="nav-link" href="@Url.Action("DanhSachVoucher", "Voucher", new { area = "Admin" })"><i class="fas fa-ticket"></i><span class="nav-text">Voucher</span></a>
+
+    </nav>
+
+    <div class="content-wrapper">
+        <header class="header">
+            <div>Quản trị hệ thống</div>
+        </header>
+
+        <main class="main-content">
+            @*<p>Chào mừng bạn đến với trang quản trị!</p>*@
+            @RenderBody()
+        </main>
+
+        <footer class="footer">
+            Copyright © 2024 LANT Store. Tất cả quyền được bảo lưu.
+        </footer>
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

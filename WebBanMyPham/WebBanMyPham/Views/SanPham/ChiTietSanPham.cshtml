@@ -1,0 +1,221 @@
+﻿@using PagedList.Mvc
+@using PagedList
+@model WebBanMyPham.Models.SanPham
+
+@{
+    ViewBag.Title = "ChiTietSanPham";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-container">
+    <div class="product-details-container">
+        <!-- Phần Hình Ảnh Sản Phẩm -->
+        <div class="product-image">
+            <img src="~/Upload/image_SP/@Model.Anhbia" alt="@Model.TenSP" />
+        </div>
+
+        <!-- Phần Chi Tiết Sản Phẩm -->
+        <div class="product-details">
+            <div class="product-title">@Model.TenSP</div>
+            <div class="product-price">@String.Format("{0:#,##0}", @Model.Giaban) VNĐ</div>
+            <div class="product-description">@Model.Mota</div>
+            <div class="product-code">Số lượng tồn: @Model.Soluongton</div>
+            <div class="action-button">
+                <a href="@Url.Action("DatHang", "Giohang", new { iMaSP = Model.MaSP, strURL = Request.Url.ToString() })">Mua Ngay</a>
+            </div>
+        </div>
+
+        <!-- Phần Đánh Giá và Phản Hồi -->
+        <div class="feedback-container">
+            <div class="reviews-list">
+                @foreach (var review in ViewBag.DanhGias)
+                {
+                    <div class="review-item">
+                        <div class="review-stars">
+                            @for (int i = 0; i < review.SoSao; i++)
+                            {<span>&#9733;</span>}
+                            @for (int i = review.SoSao; i < 5; i++)
+                            {<span>&#9734;</span>}
+                        </div>
+                        <div class="review-content">
+                            <p>@review.NoiDung</p>
+                            <span class="review-date">Ngày đánh giá: @review.NgayDanhGia.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Form Đánh Giá -->
+            @using (Html.BeginForm("ThemDanhGia", "SanPham", FormMethod.Post))
+            {
+                @Html.Hidden("maSP", Model.MaSP)
+
+                <div class="feedback-form">
+                    <h4>Đánh giá sản phẩm</h4>
+                    <label for="soSao">Đánh giá (1-5 sao):</label>
+                    <select name="soSao" required>
+                        <option value="1">★☆☆☆☆</option>
+                        <option value="2">★★☆☆☆</option>
+                        <option value="3">★★★☆☆</option>
+                        <option value="4">★★★★☆</option>
+                        <option value="5">★★★★★</option>
+                    </select>
+                    <label for="noiDung">Nội dung đánh giá:</label>
+                    <textarea name="noiDung" required></textarea>
+                    <button type="submit">Gửi đánh giá</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Cải tiến phần chung của trang */
+    .page-container {
+        background-color: #f1f1f1;
+        padding: 30px 0;
+    }
+
+    /* Cải thiện phần chứa chi tiết sản phẩm */
+    .product-details-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    /* Hình ảnh sản phẩm */
+    .product-image {
+        flex: 1;
+        max-width: 450px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .product-image img {
+            width: 100%;
+            border-radius: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .product-image img:hover {
+                transform: scale(1.05);
+            }
+
+    /* Chi tiết sản phẩm */
+    .product-details {
+        flex: 2;
+        padding-left: 30px;
+    }
+
+    .product-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    .product-price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #e67e22;
+        margin: 15px 0;
+    }
+
+    .product-description {
+        font-size: 16px;
+        color: #7f8c8d;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .product-code {
+        font-size: 14px;
+        color: #7f8c8d;
+        margin-bottom: 20px;
+    }
+
+    /* Nút hành động */
+    .action-button a {
+        display: inline-block;
+        padding: 12px 25px;
+        background: #e67e22;
+        color: white;
+        border-radius: 30px;
+        font-size: 18px;
+        text-decoration: none;
+        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+        .action-button a:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+
+    /* Phản hồi và đánh giá */
+    .feedback-container {
+        width: 100%;
+        margin-top: 40px;
+    }
+
+    .reviews-list .review-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .review-stars {
+        font-size: 18px;
+        color: #f39c12;
+    }
+
+    .feedback-form {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+        .feedback-form h4 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .feedback-form label {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .feedback-form select,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+
+        .feedback-form button {
+            padding: 12px 30px;
+            font-size: 18px;
+            background: #e67e22;
+            color: white;
+            border-radius: 25px;
+            transition: background 0.3s ease-in-out;
+        }
+
+            .feedback-form button:hover {
+                background: #d35400;
+            }
+</style>

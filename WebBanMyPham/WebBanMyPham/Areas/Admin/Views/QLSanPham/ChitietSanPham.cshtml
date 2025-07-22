@@ -1,0 +1,30 @@
+﻿@model WebBanMyPham.Models.SanPham
+
+@{
+    ViewBag.Title = "ChitietSanPham";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container" style=" height: 550px">
+    <div class="row align-items-start">
+        <!-- Cột hình ảnh sản phẩm -->
+        <div class="col-md-5 text-center">
+            <img src="@Url.Content("~/Upload/image_SP/" + Model.Anhbia)" style="width: 250px; height: auto;" />
+        </div>
+
+        <!-- Cột thông tin chi tiết sản phẩm -->
+        <div class="col-md-7">
+            <h3 class="product-title"> @Html.DisplayFor(model => model.TenSP)</h3>
+            <p><strong>Thể Loại:</strong> @Html.DisplayFor(model => model.LoaiSP.TenLoai)</p>
+            <p><strong>Ngày cập nhật:</strong> @String.Format("{0:dd/MM/yyyy}", Model.Ngaycapnhat)</p>
+            <p><strong>Số lượng tồn:</strong> @Html.DisplayFor(model => model.Soluongton)</p>
+            <p><strong>Giá:</strong> @String.Format("{0:#,##0}", Model.Giaban)</p>
+            <p><strong>Mô tả:</strong> @Html.DisplayFor(model => model.Mota)</p>
+            <p>
+                @Html.ActionLink("Xóa","XoaSanPham", new { id = Model.MaSP }) |
+                @Html.ActionLink("Sửa", "SuaSanPham", new { id = Model.MaSP }) |
+                @Html.ActionLink("Quay lại", "SanPham","QLSanPham")
+            </p>
+        </div>
+    </div>
+</div>

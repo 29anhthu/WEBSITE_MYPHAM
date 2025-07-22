@@ -1,0 +1,50 @@
+﻿@model WebBanMyPham.Models.VOUCHER
+
+@{
+    ViewBag.Title = "Chỉnh Sửa Voucher";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chỉnh Sửa Voucher</h2>
+
+<form action="@Url.Action("SuaVoucher", "Voucher")" method="post">
+    @Html.HiddenFor(model => model.MaVoucher) <!-- Giữ nguyên ID voucher -->
+
+    <div class="form-group">
+        <label>Mã Voucher</label>
+        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required" })
+    </div>
+
+    <div class="form-group">
+        <label>Giảm Giá</label>
+        @Html.TextBoxFor(model => model.GiamGia, new { @class = "form-control", type = "number", required = "required" })
+    </div>
+
+    <div class="form-group">
+        <label>Loại Giảm Giá</label>
+        <select name="LoaiGiamGia" class="form-control">
+            <option value="false" @(Model.LoaiGiamGia == false ? "selected" : "")>Giảm số tiền</option>
+            <option value="true" @(Model.LoaiGiamGia == true ? "selected" : "")>Giảm %</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Số Lượng</label>
+        @Html.TextBoxFor(model => model.SoLuong, new { @class = "form-control", type = "number", required = "required", min = "1" })
+    </div>
+
+    <div class="form-group">
+        <label>Ngày bắt đầu:</label>
+        @Html.TextBoxFor(m => m.NgayBatDau, new { @class = "form-control", type = "date", required = "required" })
+        @Html.ValidationMessageFor(m => m.NgayBatDau, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Ngày kết thúc:</label>
+        @Html.TextBoxFor(m => m.NgayHetHan, new { @class = "form-control", type = "date", required = "required" })
+        @Html.ValidationMessageFor(m => m.NgayHetHan, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+    <a href="@Url.Action("DanhSachVoucher", "Voucher")" class="btn btn-secondary">Hủy</a>
+</form>

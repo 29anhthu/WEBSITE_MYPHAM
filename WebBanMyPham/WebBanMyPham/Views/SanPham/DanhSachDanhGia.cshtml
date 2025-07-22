@@ -1,0 +1,28 @@
+﻿@model List<WebBanMyPham.Models.DanhGia>
+
+@{
+    ViewBag.Title = "DanhSachDanhGia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="reviews-list">
+    @foreach (var review in Model)
+    {
+        <div class="review-item">
+            <div class="review-stars">
+                <strong>@(review.KHACHHANG?.HoTen ?? "Người dùng ẩn danh")</strong> <!-- Hiển thị tên khách hàng -->
+                @for (int i = 0; i < review.SoSao; i++)
+                {<span>★</span>}
+                @for (int i = review.SoSao ?? 0; i < 5; i++)
+                {<span>☆</span>}
+            </div>
+            <div class="review-content">
+                <p>@review.NoiDung</p>
+                <span class="review-date">
+                    Ngày đánh giá: @(review.NgayDanhGia?.ToString("dd/MM/yyyy") ?? "Chưa có")
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+

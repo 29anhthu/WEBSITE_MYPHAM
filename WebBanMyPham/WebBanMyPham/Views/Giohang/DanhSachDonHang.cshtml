@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebBanMyPham.Models.DONDATHANG>
+@{
+    ViewBag.Title = "DanhSachDonHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Danh sách Đơn hàng của Bạn</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã Đơn Hàng</th>
+            <th>Ngày Đặt</th>
+            <th>Tình trạng giao hàng</th>
+            <th>Tình trạng thanh toán</th>
+            <th>Chi Tiết</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donHang in Model)
+        {
+            <tr>
+                <td>@donHang.MaDonHang</td>
+                <td>@(donHang.Ngaydat.HasValue ? donHang.Ngaydat.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                <td>@donHang.Tinhtranggiaohang</td>
+                <!-- Hiển thị trạng thái thanh toán -->
+                <td>@donHang.Dathanhtoan</td>
+                <td>
+                    <a href="@Url.Action("ChiTietDonHang", "GioHang", new { id = donHang.MaDonHang, MaKH = donHang.MaKH })">
+                        Xem Chi Tiết
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

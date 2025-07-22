@@ -1,0 +1,186 @@
+﻿@using WebBanMyPham.Models;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<SanPham>
+
+@{
+    ViewBag.Title = "TimKiem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .section-title {
+            margin: 60px 0 40px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            position: relative;
+        }
+
+            .section-title::after {
+                content: '';
+                display: block;
+                width: 60px;
+                height: 4px;
+                background-color: #f37a11;
+                margin: 10px auto 0;
+                border-radius: 3px;
+            }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .col-xl-3, .col-lg-4, .col-md-6, .col-sm-12 {
+            flex: 1 1 calc(25% - 20px);
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            height: 100%;
+        }
+
+            .product-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .product-img {
+            position: relative;
+        }
+
+            .product-img img {
+                width: 100%;
+                height: auto;
+            }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-img:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .product-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            min-height: 48px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: #ff5722;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+            .btn-primary:hover {
+                background-color: #e64a19;
+                color: white;
+                text-decoration: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3 class="section-title">KẾT QUẢ TÌM KIẾM</h3>
+
+        <div class="row">
+            @foreach (var SanPham in Model)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = SanPham.MaSP })">
+                                <img class="img-fluid" src="~/Upload/image_SP/@SanPham.Anhbia" alt="@SanPham.TenSP">
+                            </a>
+                            <div class="overlay">
+                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = SanPham.MaSP })" class="quick-view">
+                                    <i class="ti-eye"></i> Xem nhanh
+                                </a>
+                                <a href="#" class="wishlist">
+                                    <i class="ti-heart"></i> Yêu thích
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h5 class="product-title">
+                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = SanPham.MaSP })" class="text-dark">@SanPham.TenSP</a>
+                            </h5>
+                            <div class="product-price">
+                                @if (SanPham.Soluongton != 0 && SanPham.Soluongton != null)
+                                {
+                                    <span class="text-danger font-weight-bold">@String.Format("{0:#,##0}", SanPham.Giaban) VNĐ</span>
+                                }
+                                else
+                                {
+                                    <span class="text-secondary">Hết hàng</span>
+                                }
+                            </div>
+                            @if (SanPham.Soluongton != 0 && SanPham.Soluongton != null)
+                            {
+                                <a href="@Url.Action("ThemGiohang", "GioHang", new { iMaSP = SanPham.MaSP, strURL = Request.Url.ToString() })" class="btn btn-primary mt-2">Thêm vào giỏ</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

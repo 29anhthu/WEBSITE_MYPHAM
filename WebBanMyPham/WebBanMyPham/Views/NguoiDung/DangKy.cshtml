@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "DangKy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .form-title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+        .form-container table {
+            width: 100%;
+        }
+
+        .form-container th,
+        .form-container td {
+            padding: 8px 10px;
+        }
+
+        .form-container th {
+            text-align: left;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="password"],
+        .form-container input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+    .submit-button {
+        width: 100%;
+        padding: 10px;z
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<h4 class="form-title">ĐĂNG KÍ THÀNH VIÊN</h4>
+<div class="form-container">
+    @using (Html.BeginForm())
+    {
+        <table>
+            <tr>
+                <th>Họ tên khách hàng <font color="red">*</font></th>
+                <td>
+                    @Html.TextBox("HotenKH")
+                    <div class="error-message">@ViewData["Loi1"]</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Tên đăng nhập <font color="red">*</font></th>
+                <td>
+                    @Html.TextBox("TenDN")
+                    <div class="error-message">@ViewData["Loi2"]</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Mật khẩu <font color="red">*</font></th>
+                <td>
+                    @Html.Password("Matkhau")
+                    <div class="error-message">@ViewData["Loi3"]</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Nhập lại mật khẩu <font color="red">*</font></th>
+                <td>
+                    @Html.Password("Matkhaunhaplai")
+                    <div class="error-message">@ViewData["Loi4"]</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Email <font color="red">*</font></th>
+                <td>
+                    @Html.TextBox("Email")
+                    <div class="error-message">@ViewData["Loi5"] @ViewData["LoiEmail"]</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Địa chỉ <font color="red">*</font></th>
+                <td>
+                    @Html.TextBox("Diachi")
+                    <div class="error-message">@ViewData["Loi6"]</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Số điện thoại <font color="red">*</font></th>
+                <td>
+                    @Html.TextBox("Dienthoai")
+                    <div class="error-message">@ViewData["Loi7"]</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Ngày sinh <font color="red">*</font></th>
+                <td>
+                    <input type="date" name="Ngaysinh" />
+                    <div class="error-message">@ViewData["LoiNgaySinh"]</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Đăng Ký" class="submit-button" />
+                </td>
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+                @if (!string.IsNullOrEmpty(ViewBag.ThongBao))
+                {
+                    <div class="alert alert-danger">@ViewBag.ThongBao</div>
+                }
+
+            </tr>
+            
+        </table>
+    }
+</div>

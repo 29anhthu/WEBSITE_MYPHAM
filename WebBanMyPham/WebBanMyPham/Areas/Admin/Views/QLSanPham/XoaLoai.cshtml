@@ -1,0 +1,146 @@
+﻿@model WebBanMyPham.Models.LoaiSP
+
+@{
+        ViewBag.Title = "XoaLoai";
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+<div class="delete-category-wrapper">
+    <div class="delete-category-container">
+        <h2 class="text-center">Xóa Loại</h2>
+
+        <h3 class="text-danger text-center">Không thể khôi phục sau khi xóa! Xác nhận xóa?</h3>
+
+        <div class="category-details">
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>Loại sản phẩm:</dt>
+                <dd>@Html.DisplayFor(model => model.TenLoai)</dd>
+                <dt>Mã loại:</dt>
+                <dd>@Html.DisplayFor(model => model.MaLoai)</dd>
+            </dl>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions">
+                <div class="action-buttons">
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                    @Html.ActionLink("Sửa", "Sualoai", new { id = Model.MaLoai }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Quay lại", "Loai", "QLSanPham", null, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style>
+    /* Bao quanh toàn bộ trang Xóa Loại */
+    .delete-category-wrapper {
+        display: flex;
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        min-height: calc(100vh - 100px); /* Chiều cao trang, trừ header và footer */
+        padding: 20px;
+        background-color: #f8f9fa; /* Màu nền tổng thể */
+    }
+
+    /* Khung chứa nội dung Xóa Loại */
+    .delete-category-container {
+        width: 100%;
+        max-width: 800px;
+        padding: 30px;
+        background-color: #ffffff; /* Nền trắng */
+        border-radius: 10px; /* Bo góc */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+    }
+
+        /* Tiêu đề */
+        .delete-category-container h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .delete-category-container h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+            margin-bottom: 20px;
+        }
+
+    /* Chi tiết loại sản phẩm */
+    .category-details {
+        margin-bottom: 20px;
+    }
+
+        .category-details dl {
+            margin-bottom: 0;
+        }
+
+        .category-details dt {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .category-details dd {
+            margin-left: 10px;
+            color: #333;
+        }
+
+    /* Nút bấm */
+    .form-actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .action-buttons .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 5px;
+        margin: 0 10px;
+    }
+
+    /* Nút Xóa */
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    /* Nút Sửa */
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: black;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+    /* Nút Quay lại */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+</style>

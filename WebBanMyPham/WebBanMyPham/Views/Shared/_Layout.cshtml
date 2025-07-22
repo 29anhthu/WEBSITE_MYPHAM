@@ -1,0 +1,334 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=604800" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>LANT </title>
+
+    <link href="~/Content/images/logo.png" rel="shortcut icon" type="image/x-icon">
+
+    <!-- jQuery -->
+    <script src="js/jquery-2.0.0.min.js" type="text/javascript"></script>
+
+    <!-- Bootstrap4 files-->
+    <script src="~/Scripts/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+    <!-- Font awesome 5 -->
+    @*<link href="fonts/css/fontawesome/~/Content/all.min.css" type="text/css" rel="stylesheet">*@
+
+    <!-- custom style -->
+    <link href="~/Content/css/ui.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Content/css/responsive.css" rel="stylesheet" type="text/css" />*@
+
+    <!-- custom javascript -->
+    <script src="~/Scripts/js/script.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+    <header class="section-header">
+        <section class="header-main border-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-2 col-lg-3 col-md-12">
+                        <a href="@Url.Action("DanhSachSanPham", "SanPham")">
+                            <img src="~/Content/images/logo.png" style="width: 100px; height: auto;" alt="Logo" />
+                        </a>
+                    </div>
+                    <div class="col-xl-6 col-lg-5 col-md-6">
+                        <form action="@Url.Action("TimKiem","NguoiDung")" class="search-header">
+                            <div class="input-group w-100">
+                                <select class="custom-select border-right" name="category_name">
+                                    <option value="">Tất cả</option>
+                                    <option value="codex">Sản phẩm</option>
+                                    <option value="comments">Mới nhất</option>
+                                </select>
+                                <input type="text" name="sTuKhoa" class="form-control" placeholder="Nhập từ khóa tìm kiếm" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <ul class="list-main d-flex justify-content-end align-items-center">
+                        @if (Session["Taikhoan"] == null || Session["Taikhoan"].ToString() == "")
+                        {
+                            <li class="widget-header user-section">
+                                <a href="@Url.Action("Dangnhap","Nguoidung")" class="widget-view">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <small class="text">Đăng nhập</small>
+                                </a>
+                            </li>
+                            <li class="widget-header user-section">
+                                @if (Session["SL"] != null && Convert.ToInt32(Session["SL"]) > 0)
+                                {
+                                    <span class="badge badge-danger position-absolute top-0 start-100 translate-middle" style="margin-left: 60px">
+                                        @Session["SL"]
+                                    </span>
+                                }
+                                <a href="@Url.Action("GioHang", "Giohang")" class="widget-view position-relative">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <small class="text">Giỏ hàng</small>
+
+                                </a>
+                            </li>
+                            <li class="widget-header user-section">
+                                <a href="@Url.Action("DangKy","Nguoidung")" class="widget-view">
+                                    <i class="fas fa-user-plus"></i>
+                                    <small class="text">Đăng ký</small>
+                                </a>
+                            </li>
+
+                        }
+                        else
+                        {
+                            <li class="widget-header user-section">
+                                <a href="@Url.Action("ThongTinCaNhan", "NguoiDung")" class="widget-view">
+                                    <i class="fas fa-user"></i> <!-- Icon người dùng -->
+                                    <small class="text">@(Session["TDN"]?.ToString() ?? "Khách")</small>
+                                </a>
+                            </li>
+
+                            <li class="widget-header user-section">
+                                @if (Session["SL"] != null && Convert.ToInt32(Session["SL"]) > 0)
+                                {
+                                    <span class="badge badge-danger position-absolute top-0 start-100 translate-middle" style="margin-left: 60px">
+                                        @Session["SL"]
+                                    </span>
+                                }
+                                <a href="@Url.Action("GioHang", "Giohang")" class="widget-view position-relative">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <small class="text">Giỏ hàng</small>
+
+                                </a>
+                            </li>
+
+                            <li class="widget-header user-section">
+                                <a href="@Url.Action("Thoat","Nguoidung")" class="widget-view">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <small class="text">Đăng xuất</small>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+
+                </div>
+            </div>
+        </section>
+
+        <nav class="navbar navbar-main navbar-expand-lg border-bottom">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="main_nav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fa fa-bars text-muted mr-2"></i> DANH MỤC SẢN PHẨM </a>
+                            <div class="dropdown-menu" style="height:110px;width:200px; font-size:16px">
+                                <a class="dropdown-item" href="@Url.Action("DanhSachTD", "SanPham")">Son</a>
+                                <a class="dropdown-item" href="@Url.Action("DanhSachSON", "SanPham")">Phấn nước</a>
+                                <a class="dropdown-item" href="@Url.Action("DanhSachSON", "SanPham")">Nước hoa</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Brand")">THƯƠNG HIỆU</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">KHUYẾN MÃI</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-md-auto">
+                        <li>
+                            <a href="@Url.Action("TheoDoiDonHang", "Giohang")">
+                                Theo dõi đơn hàng
+                                @if (Session["ThongBao"] != null)
+                                {
+                                    <span class="badge bg-danger">1</span> <!-- Hiển thị số 1 -->
+                                }
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @RenderBody()
+
+    <footer class="section-footer bg-secondary">
+        <div class="container">
+            <section class="footer-top padding-y-lg text-white">
+                <div class="row">
+                    <aside class="col-md col-6">
+                        <h6 class="title">LANT</h6>
+                        <ul class="list-unstyled">
+                            <li> Công ty LANT là một dự án toàn diện nhằm tối ưu hóa hoạt động của một cửa hàng bán lẻ quần áo.</li>
+                            <li> Cửa hàng đảm bảo được sự trải nghiệm của khách hàng về các sản phẩm, các tiện ích thanh toán có thể được thực hiện trực tuyến thông qua các sàn giao dịch mà không cần phải đến cửa hàng.</li>
+                        </ul>
+                    </aside>
+
+                    <aside class="col-md col-6">
+                        <h6 class="title">VỀ LANT</h6>
+                        <ul class="list-unstyled">
+                            <li> <a href="#">Về chúng ta</a></li>
+                            <li> <a href="#">Câu chuyện thương hiệu</a></li>
+                            <li> <a href="#">Liên hệ</a></li>
+                        </ul>
+                    </aside>
+
+                    <aside class="col-md col-6">
+                        <h6 class="title">CHÍNH SÁCH</h6>
+                        <ul class="list-unstyled">
+                            <li> <a href="#">Chính sách và giao nhận thanh toán</a></li>
+                            <li> <a href="#">Chính sách bảo mật thông tin cá nhân</a></li>
+                            <li> <a href="#">Chính sách đổi trả sản phẩm</a></li>
+                            <li> <a href="#">Điều khoản sử dụng</a></li>
+                        </ul>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="footer-bottom text-center">
+                <p class="text-white">Hệ Thống Phân Phối Chính Hãng</p>
+                <p class="text-muted"> &copy 2024 LANT, All rights reserved </p>
+            </section>
+        </div>
+    </footer>
+
+    <style>
+        .badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 50%;
+}
+
+        .dropdown-item:hover {
+            background-color: #ffcc99; /* Nền cam nhạt khi hover */
+            color: #000;
+        }
+
+        ul.list-main {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .widget-header {
+            margin-left: 30px; /* Khoảng cách giữa các mục */
+        }
+
+        .widget-view {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px; /* Slightly smaller font size */
+            transition: color 0.3s ease;
+        }
+
+            .widget-view:hover {
+                color: #007bff; /* Màu xanh dương khi di chuột */
+            }
+
+            .widget-view i {
+                margin-right: 5px;
+                font-size: 18px; /* Kích thước biểu tượng */
+            }
+
+        .text {
+            font-size: 14px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+            .user-info span {
+                margin-right: 15px; /* Khoảng cách giữa tên người dùng và nút đăng xuất */
+            }
+
+        .fa-shopping-cart {
+            color: #ff5722;
+        }
+
+            .fa-shopping-cart:hover {
+                color: #ff9800; /* Màu khi di chuột qua biểu tượng giỏ hàng */
+            }
+
+        ul.list-main {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .widget-header {
+            margin-left: 20px;
+        }
+
+        .widget-view {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            width: 100px; /* Đảm bảo kích thước đồng đều */
+            justify-content: center; /* Căn giữa các icon và text */
+        }
+
+            .widget-view:hover {
+                color: #007bff;
+            }
+
+            .widget-view i {
+                margin-right: 5px;
+                font-size: 18px;
+            }
+
+        .text {
+            font-size: 14px;
+            white-space: nowrap; /* Đảm bảo văn bản không xuống dòng */
+            margin: 0;
+        }
+
+        .footer-top {
+            padding: 20px 0; /* Giảm padding cho footer */
+        }
+
+        .footer-bottom {
+            padding: 10px 0; /* Giảm padding cho footer */
+        }
+
+        .footer-top .title {
+            font-size: 16px; /* Giảm kích thước font tiêu đề */
+        }
+
+        .footer-top .list-unstyled li {
+            font-size: 12px; /* Giảm kích thước font cho danh sách */
+        }
+
+        .text-muted {
+            font-size: 12px; /* Giảm kích thước font cho text-muted */
+        }
+    </style>
+</body>
+

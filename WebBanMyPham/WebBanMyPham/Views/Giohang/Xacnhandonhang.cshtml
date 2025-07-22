@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Xacnhandonhang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="order-confirmation">
+    <div class="confirmation-icon">
+        <i class="fas fa-check-circle"></i>
+    </div>
+    <h3 class="confirmation-title">Đơn hàng đã được xác nhận!</h3>
+    <p class="confirmation-message">Bạn sẽ nhận thông tin vận chuyển về sản phẩm sớm nhất!</p>
+    <div class="home-link">
+        @Html.ActionLink("Trở về trang chủ","Index", "SanPham", null, new { @class = "btn-home" })
+    </div>
+</div>
+
+<style>
+/* CSS */
+.order-confirmation {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-icon {
+    margin-bottom: 20px;
+}
+
+.confirmation-icon i {
+    font-size: 64px;
+    color: #28a745;
+    animation: scaleIn 0.5s ease-in-out;
+}
+
+.confirmation-title {
+    color: #333333;
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.confirmation-message {
+    color: #666666;
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.home-link {
+    margin-top: 25px;
+}
+
+.btn-home {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-home:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+
+
+</style>
+
+

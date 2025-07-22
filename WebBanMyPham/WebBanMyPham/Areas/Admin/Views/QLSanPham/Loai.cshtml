@@ -1,0 +1,88 @@
+﻿@using WebBanMyPham.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<WebBanMyPham.Models.LoaiSP>
+@{
+    ViewBag.Title = "Loai";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<p>
+    @Html.ActionLink("Thêm mới", "ThemmoiLoai", null, new { @class = "btn-add" })
+</p>
+@if (TempData["ThongBao1"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["ThongBao1"]
+    </div>
+}
+<table class="table table-bordered text-center" style="height: 500px">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã Loại</th>
+            <th>Tên Loại</th>
+            <th style="width:120px">Thao Tác</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaLoai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenLoai)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Sualoai", new { id = item.MaLoai }, new { @class = "btn-edit" })
+                <br />
+
+                <span style="color:red">
+                    @Html.ActionLink("Xóa", "XoaLoai", new { id = item.MaLoai },
+                                        new { onclick = "return confirm('Bạn có chắc chắn muốn xóa loại sản phẩm này?');", @class = "btn-delete" })
+                </span>
+            </td>
+        </tr>
+    }
+</table>
+<div class="Trang">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Loai", new { page = page }))
+</div>
+
+<style>
+
+    th, td {
+        padding: 10px; /* Thu nhỏ khoảng cách trong ô */
+        border: 1px solid #ddd;
+        font-size: 14px;
+        word-wrap: break-word; /* Đảm bảo nội dung không tràn */
+    }
+
+    th {
+        background-color: #f7f7f7;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Cột mã loại */
+    td:nth-child(1), th:nth-child(1) {
+        width: 15%; /* Đặt độ rộng khoảng 15% */
+    }
+
+    /* Cột tên loại */
+    td:nth-child(2), th:nth-child(2) {
+        width: 35%; /* Đặt độ rộng khoảng 35% */
+    }
+
+    /* Cột thao tác */
+    td:nth-child(3), th:nth-child(3) {
+        width: 20%; /* Đặt độ rộng cụ thể cho cột thao tác */
+    }
+</style>

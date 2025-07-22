@@ -1,0 +1,63 @@
+﻿@using WebBanMyPham.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<WebBanMyPham.Models.SanPham>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "ThemmoiSanPham")
+</p>
+@if (TempData["ThongBao1"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["ThongBao1"]
+    </div>
+}
+<table class="table table-bordered text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>TÊN SẢN PHẨM</th>
+            <th>GIÁ BÁN</th>
+            <th>NGÀY CẬP NHẬT</th>
+            <th>SỐ LƯỢNG TỒN</th>
+            <th>MÃ LOẠI</th>
+            <th style="width:80px">THAO TÁC</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSP)
+            </td>
+            <td>
+                @String.Format("{0:#,##0}", @item.Giaban)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Ngaycapnhat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soluongton)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiSP.TenLoai)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Suasanpham", new { id = item.MaSP })
+                <br />
+                @Html.ActionLink("Chi tiết", "Chitietsanpham", new { id = item.MaSP })
+                <br />
+                <span style="color:red">@Html.ActionLink("Xóa", "Xoasanpham", new { id = item.MaSP })</span>
+            </td>
+        </tr>
+    }
+</table>
+<div class="Trang">
+    Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("SanPham", new { page = page }))
+</div>

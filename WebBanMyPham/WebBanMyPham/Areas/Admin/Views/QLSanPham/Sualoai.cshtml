@@ -1,0 +1,133 @@
+﻿@model WebBanMyPham.Models.LoaiSP
+
+@{
+        ViewBag.Title = "Sualoai";
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+<h2>SỬA LOẠI SẢN PHẨM</h2>
+
+<div class="edit-page-wrapper">
+    <div class="edit-category-container">
+        <h2 class="text-center">SỬA LOẠI SẢN PHẨM</h2>
+
+        @using (Html.BeginForm("Sualoai", "QLSanPham", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-container">
+                <hr class="section-divider" />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.MaLoai)
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.TenLoai, "Tên thể loại", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.TenLoai, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenLoai, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-offset-3 col-md-9 text-right">
+                        <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                        @Html.ActionLink("Quay lại", "Loai", "QLSanPham", null, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style>
+    /* Bao quanh toàn bộ trang sửa */
+    .edit-page-wrapper {
+        display: flex;
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        height: calc(100vh - 100px); /* Chiều cao toàn màn hình trừ header và footer */
+        padding: 20px;
+        background-color: #f8f9fa; /* Màu nền tổng thể */
+    }
+
+    /* Khung chứa nội dung sửa */
+    .edit-category-container {
+        width: 100%;
+        max-width: 800px;
+        padding: 30px;
+        background-color: #ffffff; /* Nền trắng */
+        border-radius: 10px; /* Bo góc */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+    }
+
+        /* Tiêu đề */
+        .edit-category-container h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+    /* Đường kẻ ngang */
+    .section-divider {
+        border: 0;
+        height: 1px;
+        background: #ddd;
+        margin: 20px 0;
+    }
+
+    /* Các nhóm trong form */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group .control-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+        }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+    /* Nút bấm */
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+</style>

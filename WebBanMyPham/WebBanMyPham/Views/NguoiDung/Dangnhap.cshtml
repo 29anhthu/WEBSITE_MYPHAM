@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Dangnhap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #e9f1f7; /* Soft blue background for the whole page */
+        font-family: Arial, sans-serif;
+        padding: 0;
+        margin: 0;
+    }
+
+    .login-container {
+        background-color: #ffffff; /* White background for the form */
+        padding: 40px;
+        border-radius: 20px; /* More rounded corners for a modern look */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        width: 400px;
+        margin: 100px auto; /* Center the container and add top margin */
+    }
+
+    h4 {
+        font-size: 32px; /* Slightly larger font size */
+        margin-bottom: 20px;
+        text-align: center;
+        color: #007bff; /* Blue color for the title */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+    }
+
+    label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333333; /* Darker gray for labels */
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="password"], .submit-button {
+        width: calc(100% - 20px); /* Same width for input and button */
+        padding: 12px; /* Increased padding for better usability */
+        border: 2px solid #007bff; /* Blue border for input fields and button */
+        border-radius: 10px; /* Rounded edges */
+        margin-bottom: 15px; /* Spacing between fields */
+        font-size: 16px; /* Consistent font size */
+        transition: border-color 0.3s, box-shadow 0.3s; /* Added transition for focus */
+        height: 45px; /* Fixed height for input fields */
+    }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #0056b3; /* Darker blue on focus */
+            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5); /* Soft glow effect */
+            outline: none;
+        }
+
+    .error-message {
+        color: red; /* Red color for error messages */
+        margin-top: -10px;
+        font-size: 12px;
+        text-align: left;
+    }
+
+    .submit-button {
+        background-color: #007bff; /* Matching button color */
+        color: white;
+        border: none; /* No border for button */
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s; /* Added transform for interaction */
+        font-weight: bold; /* Bolder text for emphasis */
+        letter-spacing: 1px; /* Slightly increase space between letters */
+    }
+
+        .submit-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: translateY(-2px); /* Lift effect on hover */
+        }
+
+    .forgot-password {
+        margin-top: 15px;
+        font-size: 14px;
+        text-align: center; /* Center align the text */
+    }
+
+        .forgot-password a {
+            color: #007bff; /* Blue color for the link */
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: bold; /* Bolder text for emphasis */
+        }
+
+            .forgot-password a:hover {
+                color: #0056b3; /* Darker blue on hover */
+                text-decoration: underline;
+            }
+</style>
+@if (ViewBag.Thongbao != null)
+{
+    <div class="alert alert-danger">@ViewBag.Thongbao</div>
+}
+5
+<div class="login-container">
+    <h4>ĐĂNG NHẬP</h4>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
+        <label for="TenDN">Tên Đăng Nhập:</label>
+        @Html.TextBox("TenDN", null, new { @class = "form-control" })
+        <span class="error-message">@ViewData["Loi1"]</span>
+
+        <label for="Matkhau">Mật Khẩu:</label>
+        @Html.Password("Matkhau", null, new { @class = "form-control" })
+        <span class="error-message">@ViewData["Loi2"]</span>
+
+        <input type="submit" value="Đăng Nhập" class="submit-button" />
+
+        <div class="forgot-password">
+            <a href="#">Quên mật khẩu?</a>
+        </div>
+
+
+    }
+    @if (TempData["ThongBao"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["ThongBao"]
+        </div>
+    }
+</div>
+

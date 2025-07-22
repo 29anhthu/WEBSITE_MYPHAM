@@ -1,0 +1,115 @@
+﻿@model List<WebBanMyPham.Service.DonHangContext>
+@{
+    ViewBag.Title = "TheoDoiDonHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Theo Dõi Đơn Hàng</h2>
+@if (Session["ThongBao"] != null)
+{
+    <div class="alert alert-success">
+        @Session["ThongBao"]
+    </div>
+
+    // Xóa thông báo sau khi hiển thị để tránh lặp lại khi tải lại trang
+    Session["ThongBao"] = null;
+}
+
+<table class="order-table">
+    <thead>
+        <tr>
+            <th>Ngày Đặt</th>
+            <th>Đã Thanh Toán</th>
+            <th>Tình Trạng Giao Hàng</th>
+            <th>Ngày Giao</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Số Lượng</th>
+            <th>Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donHang in Model)
+        {
+            <tr class="order-row">
+                <td>@(donHang.Ngaydat?.ToString("dd/MM/yyyy") ?? "N/A")</td>
+                <td>@(donHang.Dathanhtoan == true ? "Đã thanh toán" : "Chưa thanh toán")</td>
+                <td>@donHang.TrangThaiHienThi</td>
+                <td>@(donHang.Ngaygiao?.ToString("dd/MM/yyyy") ?? "Chưa xác định")</td>
+
+
+                <!-- Tạo danh sách sản phẩm và số lượng trong cột -->
+                <td>
+                    @foreach (var sp in donHang.SanPhams)
+                    {
+                        <div>@sp.TenSP</div>
+                    }
+                </td>
+                <td>
+                    @foreach (var sp in donHang.SanPhams)
+                    {
+                        <div>@sp.SoLuong</div>
+                    }
+                </td>
+                <td>
+                    @if (donHang.TrangThaiHienThi == "Chờ xác nhận")
+                    {
+                        <form action="@Url.Action("HuyDonHang", "GioHang")" method="post">
+                            <input type="hidden" name="maDonHang" value="@donHang.MaDonHang" />
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                                Hủy đơn
+                            </button>
+                        </form>
+                    }
+                    else if (donHang.TrangThaiHienThi == "Đơn hàng bị hủy")
+                    {
+                        <span class="badge bg-danger">Đã hủy</span>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 16px;
+    }
+
+        .order-table th, .order-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .order-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+    .order-row {
+        background-color: #f9f9f9;
+    }
+
+        .order-row:hover {
+            background-color: #f1f1f1;
+        }
+
+    .order-table td div {
+        margin-bottom: 4px;
+    }
+</style>

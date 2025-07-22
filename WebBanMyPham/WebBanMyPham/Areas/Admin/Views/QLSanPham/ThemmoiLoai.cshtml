@@ -1,0 +1,139 @@
+﻿@model WebBanMyPham.Models.LoaiSP
+
+@{
+        ViewBag.Title = "ThemmoiLoai";
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+<div class="add-category-wrapper">
+    <div class="add-category-container">
+        <h3 class="text-center">Thêm Mới Loại</h3>
+
+        @using (Html.BeginForm("ThemmoiLoai", "QLSanPham", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-container">
+                <hr class="section-divider" />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group row">
+                    <label for="TenLoai" class="control-label col-md-2">Tên Loại:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TenLoai, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenLoai, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Đặt nút bấm trong khung flexbox -->
+                <div class="form-group row button-group">
+                    <div class="col-md-12 text-center">
+                        <input type="submit" value="Thêm Mới" class="btn btn-success" />
+                        @Html.ActionLink("Quay lại", "Loai", "QLSanPham", null, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<style>
+    /* Bao quanh toàn bộ trang thêm mới */
+    .add-category-wrapper {
+        display: flex;
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        min-height: calc(100vh - 100px); /* Chiều cao trang, trừ header và footer */
+        padding: 20px;
+        background-color: #f8f9fa; /* Màu nền tổng thể */
+    }
+
+    /* Khung chứa nội dung thêm mới */
+    .add-category-container {
+        width: 100%;
+        max-width: 800px;
+        padding: 30px;
+        background-color: #ffffff; /* Nền trắng */
+        border-radius: 10px; /* Bo góc */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+    }
+
+        /* Tiêu đề */
+        .add-category-container h3 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+    /* Đường kẻ ngang */
+    .section-divider {
+        border: 0;
+        height: 1px;
+        background: #ddd;
+        margin: 20px 0;
+    }
+
+    /* Các nhóm trong form */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group .control-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+        }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+    /* Nút bấm */
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 5px;
+        margin: 0 10px; /* Thêm khoảng cách giữa các nút */
+    }
+
+    /* Nút Thêm Mới */
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    /* Nút Quay lại */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    /* Flexbox để căn chỉnh các nút */
+    .button-group {
+        display: flex;
+        justify-content: space-between; /* Căn giữa và phân phối đều không gian */
+        margin-top: 20px;
+    }
+</style>

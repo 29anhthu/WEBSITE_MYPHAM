@@ -1,0 +1,474 @@
+﻿@using WebBanMyPham.Models;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<SanPham>
+
+<style>
+    .Trang li {
+        display: inline;
+        letter-spacing: 10px;
+    }
+
+    h3 {
+        margin-right: 50px;
+    }
+</style>
+
+<!-- ========================= CHAT AI  ========================= -->
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger intent="WELCOME"
+              chat-title="ChatBox"
+              agent-id="16e205d2-a4e5-4c8c-aafe-832c1d5076a0"
+              language-code="vi"></df-messenger>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<!-- ========================= SECTION MAIN  ========================= -->
+<div class="slider">
+    <div class="list">
+        <link rel="stylesheet" href="~/Content/css/slider.css">
+        <link href="~/Content/css/ui.css" rel="stylesheet" />
+        <link href="~/Content/css/responsive.css" rel="stylesheet" />
+        <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+        @*<img src="~/Content/images/favicon.ico" />*@
+        <script src="~/Scripts/js/bootstrap.bundle.min.js"></script>
+        <div class="item">
+
+            <img src="~/Content/images/banner/banner 1.png" />
+        </div>
+        <div class="item">
+            <img src="~/Content/images/banner/banner 2.png" />
+        </div>
+        <div class="item">
+            <img src="~/Content/images/banner/banner 3.png" />
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button id="prev"><</button>
+        <button id="next">></button>
+    </div>
+    <ul class="dots">
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+<script src="~/Scripts/js/slider.js"></script>
+
+<body>
+    <div class="container">
+        <h3 class="section-title">SẢN PHẨM MỚI NHẤT</h3>
+
+        <div class="row">
+            @foreach (var SanPham in Model)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = SanPham.MaSP })">
+                                <img class="img-fluid" src="~/Upload/image_SP/@SanPham.Anhbia" alt="@SanPham.TenSP">
+                            </a>
+                            <div class="overlay">
+                                <a href="#" class="quick-view" data-name="@SanPham.TenSP" data-price="@SanPham.Giaban" data-image="~/Upload/image_SP/@SanPham.Anhbia" data-url="@Url.Action("ThemGiohang", "GioHang", new { iMaSP = SanPham.MaSP })">
+                                    <i class="ti-eye"></i> Xem nhanh
+                                </a>
+                                <a href="@Url.Action("ThemYeuThich", "Favorites", new { iMaSP = SanPham.MaSP, strURL = Request.Url.ToString()}) " class="wishlist">
+                                    @*<a href="@Url.Action("ThemGiohang", "GioHang", new { iMaSP = SanPham.MaSP, strURL = Request.Url.ToString() })" class="btn btn-primary mt-2 w-100">Thêm vào giỏ</a>*@
+                                    <i class="ti-heart"></i> Yêu thích
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="product-content text-center p-3">
+                            <h5 class="product-title">
+                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = SanPham.MaSP })" class="text-dark">@SanPham.TenSP</a>
+                            </h5>
+                            <div class="product-price">
+                                @if (SanPham.Soluongton != 0 && SanPham.Soluongton != null)
+                                {
+                                    <span class="text-danger font-weight-bold">@String.Format("{0:#,##0}", SanPham.Giaban) VNĐ</span>
+                                }
+                                else
+                                {
+                                    <span class="text-secondary">Hết hàng</span>
+                                }
+                            </div>
+                            @if (SanPham.Soluongton != 0 && SanPham.Soluongton != null)
+                            {
+                                <a href="@Url.Action("ThemGiohang", "GioHang", new { iMaSP = SanPham.MaSP, strURL = Request.Url.ToString() })" class="btn btn-primary mt-2 w-100">Thêm vào giỏ</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+
+<div class="container">
+    <!-- =============== SECTION THƯƠNG HIỆU =============== -->
+    <section class="padding-bottom">
+        <header class="section-heading heading-line">
+            <h4 class="title-section text-uppercase">THƯƠNG HIỆU NỔI BẬT</h4>
+        </header>
+
+        <div class="row brands">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+                <article class="single-brand">
+                    <img src="~/Content/images/brand/BIO.png" class="card-img-top">
+                    <div class="brand-content text-center">
+                        <h6 class="title">BIO</h6>
+                        <p class="small text-uppercase text-muted">Order protection</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+                <article class="single-brand">
+                    <img src="~/Content/images/brand/MAC.jpg" class="card-img-top">
+                    <div class="brand-content text-center">
+                        <h6 class="title">MAC</h6>
+                        <p class="small text-uppercase text-muted">Finance solution</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+                <article class="single-brand">
+                    <img src="~/Content/images/brand/MBL.jpg" class="card-img-top">
+                    <div class="brand-content text-center">
+                        <h6 class="title">MLB</h6>
+                        <p class="small text-uppercase text-muted">Easy Inspection</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+                <article class="single-brand">
+                    <img src="~/Content/images/brand/YSL.jpg" class="card-img-top">
+                    <div class="brand-content text-center">
+                        <h6 class="title">YSL</h6>
+                        <p class="small text-uppercase text-muted">Logistic services</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <article class="my-4">
+        <img src="~/Content/images/banner/banner 4.jpg" class="w-100" />
+    </article>
+</div>
+
+<div class="map-container">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15674.89573071498!2d106.61622006185299!3d10.83242612017834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529e80065c9d3%3A0x5c83c7bb790ed5b!2sHasaki%20Beauty%20%26%20Clinic!5e0!3m2!1svi!2s!4v1742455131648!5m2!1svi!2s"
+            width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
+</html>
+
+<style>
+    .map-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40px 0;
+    }
+
+    /* Center the Section Title */
+    .section-title {
+        margin: 60px 0 40px;
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        position: relative;
+    }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #f37a11;
+            margin: 10px auto 0;
+            border-radius: 3px;
+        }
+
+
+
+
+    /* Thương hiệu */
+    .single-brand {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column; /* Xếp theo chiều dọc */
+        height: 100%; /* Đảm bảo chiều cao bằng nhau */
+    }
+
+        .single-brand:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(-10px);
+        }
+
+    .brand-content {
+        padding: 20px;
+        text-align: center;
+    }
+
+    /* Định dạng hình ảnh thương hiệu */
+    .single-brand img {
+        width: 100%; /* Đặt chiều rộng 100% để phù hợp với khung */
+        height: 200px; /* Đặt chiều cao cố định */
+        object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
+        border-radius: 15px 15px 0 0; /* Bo góc cho hình ảnh */
+    }
+
+    /* Hiệu ứng hover */
+    .single-brand:hover img {
+        transform: scale(1.05); /* Phóng to hình ảnh khi hover */
+        transition: transform 0.3s ease;
+    }
+
+    .brand-content h6 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .brand-content p {
+        font-size: 12px;
+        color: #888;
+    }
+
+
+    /* sản phẩm mới nhất */
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .section-title {
+        margin: 60px 0 40px;
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        position: relative;
+    }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #f37a11;
+            margin: 10px auto 0;
+            border-radius: 3px;
+        }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .col-xl-3, .col-lg-4, .col-md-6, .col-sm-12 {
+        flex: 1 1 calc(25% - 20px);
+        box-sizing: border-box;
+        margin-bottom: 20px;
+    }
+
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+        height: 100%;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .product-img {
+        position: relative;
+    }
+
+        .product-img img {
+            width: 100%;
+            height: auto;
+        }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .product-img:hover .overlay {
+        opacity: 1;
+    }
+
+    .overlay a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        margin: 0 10px;
+    }
+
+    .product-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .product-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        min-height: 48px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .product-price {
+        font-size: 16px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        background-color: #ff5722;
+        border: none;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+        .btn-primary:hover {
+            background-color: #e64a19;
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+
+<!-- Quick View Modal -->
+<div id="quickViewModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <img id="modal-image" src="~/Upload/image_SP/" alt="" />
+
+            <h3 id="modal-title"></h3>
+            <p id="modal-price"></p>
+            <a href="#" id="modal-add-to-cart" class="btn btn-primary">Thêm vào giỏ</a>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var modal = document.getElementById("quickViewModal");
+        var closeBtn = document.querySelector(".close");
+
+        document.querySelectorAll(".quick-view").forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                var name = this.getAttribute("data-name");
+                var price = this.getAttribute("data-price");
+                var image = this.getAttribute("data-image");
+                console.log("Image URL: ", image);
+
+                document.getElementById("modal-image").src = image.startsWith("http") ? image : "/Upload/image_SP/" + image;
+                var url = this.getAttribute("data-url");
+
+                document.getElementById("modal-title").innerText = name;
+                document.getElementById("modal-price").innerText = price + " VNĐ";
+                //document.getElementById("modal-image").src = image;
+                document.getElementById("modal-add-to-cart").href = url;
+
+                modal.style.display = "flex";
+            });
+        });
+
+        closeBtn.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    });
+
+
+</script>
+
+<style>
+    /* Ẩn modal mặc định */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Nội dung modal */
+    .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Ảnh trong modal */
+    .modal-body img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Nút đóng */
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+</style>

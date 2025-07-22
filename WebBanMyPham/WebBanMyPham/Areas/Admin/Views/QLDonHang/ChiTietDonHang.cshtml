@@ -1,0 +1,47 @@
+﻿@using PagedList.Mvc;
+@model List<WebBanMyPham.Models.CHITIETDONHANG>
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container mt-4">
+    <h3 class="text-center text-primary mb-4">Thông Tin Đơn Hàng</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Giá Bán</th>
+                    <th>Ảnh Bìa</th>
+                    <th>Thành Tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">@item.SanPham.TenSP</td>
+                        <td class="align-middle">@item.Soluong</td>
+                        <td class="align-middle">@String.Format("{0:N0} VNĐ", item.SanPham.Giaban)</td>
+                        <td class="align-middle">
+                            <img src="@Url.Content("~/Upload/image_sp/" + item.SanPham.Anhbia)"
+                                 class="img-thumbnail"
+                                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);"
+                                 alt="Ảnh không tồn tại!"
+                                 onerror="this.onerror=null; this.src='/images/no-image.png';" />
+                        </td>
+
+                        <td class="align-middle text-danger fw-bold">
+                            @String.Format("{0:N0} VNĐ", item.Soluong * item.SanPham.Giaban)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-3">
+        @Html.ActionLink("Quay lại", "DanhSachDonHang", "QLDonHang", null, new { @class = "btn btn-secondary" })
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>Dashboard</h2>
+<div class="row" style="width:auto; height: 510px">
+    <!-- Số lượng sản phẩm -->
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Sản phẩm</div>
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.SoLuongSanPham</h5>
+                <p class="card-text">Sản phẩm đang bán</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Số đơn hàng -->
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Đơn hàng</div>
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.SoLuongDonHang</h5>
+                <p class="card-text">Đơn hàng đã đặt</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tổng doanh thu -->
+    <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Doanh thu</div>
+            <div class="card-body">
+                <h5 class="card-title">@String.Format("{0:N0} VNĐ", ViewBag.TongDoanhThu)</h5>
+                <p class="card-text">Tổng doanh thu</p>
+            </div>
+        </div>
+    </div>
+</div>

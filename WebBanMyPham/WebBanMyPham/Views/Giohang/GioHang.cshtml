@@ -1,0 +1,82 @@
+﻿@model List<WebBanMyPham.Models.GioHang>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-4">
+    <h2 class="text-center text-primary">GIỎ HÀNG CỦA BẠN</h2>
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-warning">
+            <tr>
+                <th>Tên Sản Phẩm</th>
+                <th>Ảnh Bìa</th>
+                <th>Số Lượng</th>
+                <th>Đơn Giá</th>
+                <th>Thành Tiền</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var SanPham in Model)
+            {
+                <tr>
+                    <td class="align-middle"><strong>@SanPham.pTenSP</strong></td>
+                    <td>
+                        <img src="~/Upload/image_SP/@SanPham.pAnhbia" alt="@SanPham.pTenSP" class="img-thumbnail" style="width: 120px; height: 120px;">
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("CapnhatGiohang", "Giohang", new { @iMaSp = SanPham.iMaSP }))
+                        {
+                            <input type="number" min="1" name="txtSoluong" value="@SanPham.iSoluong" class="form-control d-inline-block w-50" />
+                            <button type="submit" class="btn btn-sm btn-warning mt-2">Cập Nhật</button>
+                        }
+                    </td>
+                    <td class="text-success">@String.Format("{0:#,##0}", SanPham.pDonggia) VNĐ</td>
+                    <td class="text-danger">@String.Format("{0:#,##0}", SanPham.dThanhtien) VNĐ</td>
+                    <td>
+                        <a href="@Url.Action("XoaGiohang", new { @iMaSp = SanPham.iMaSP })" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between p-3 bg-light rounded">
+        <h5>Số lượng sản phẩm: <strong class="text-primary">@ViewBag.Tongsoluong</strong></h5>
+        <h5>Tổng tiền: <strong class="text-danger">@String.Format("{0:#,##0}", ViewBag.TongTien) VNĐ</strong></h5>
+    </div>
+
+    <div class="mt-3 p-4 border rounded bg-light shadow-lg">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="text-warning">🎟 Chọn Voucher</h5>
+            <a href="@Url.Action("DanhSachVoucher", "Giohang", new { returnUrl = Request.Url.AbsoluteUri })" class="btn btn-outline-warning btn-lg">Chọn Voucher</a>
+        </div>
+
+        @if (Session["VoucherCode"] != null)
+        {
+            <div class="mt-3 alert alert-info">
+                <strong>Mã Voucher:</strong> <span class="font-weight-bold">@Session["VoucherCode"]</span>
+            </div>
+        }
+
+        @if (Session["VoucherDiscount"] != null && decimal.TryParse(Session["VoucherDiscount"].ToString(), out decimal voucherDiscount))
+        {
+            <div class="mt-3 alert alert-success">
+                <strong>Giảm Giá:</strong> <span class="font-weight-bold text-success">@String.Format("{0:#,##0}", voucherDiscount) VNĐ</span>
+            </div>
+        }
+
+        @if (Session["VoucherCode"] != null)
+        {
+            <div class="mt-3 text-center">
+                <a href="@Url.Action("XoaVoucher", "Giohang")" class="btn btn-danger btn-lg">Xóa Voucher</a>
+            </div>
+        }
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="@Url.Action("XoaTatcaGiohang")" class="btn btn-danger" style="">Xóa Giỏ Hàng</a>
+        <a href="@Url.Action("DatHang", "Giohang")" class="btn btn-success">Đặt Hàng</a>
+    </div>
+</div>

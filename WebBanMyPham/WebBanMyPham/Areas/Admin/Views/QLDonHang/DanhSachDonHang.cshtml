@@ -1,0 +1,106 @@
+﻿@using WebBanMyPham.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<WebBanMyPham.Models.DONDATHANG>
+@using WebBanMyPham.Models.Enums
+@{
+    ViewBag.Title = "Quản lý đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Ô tìm kiếm -->
+<form method="get" action="@Url.Action("DanhSachDonHang", "QLDonHang", new { area = "Admin" })" class="mb-3">
+    <input type="text" name="search" class="form-control" placeholder="Nhập mã đơn hàng hoặc tên khách hàng..." value="@Request.QueryString["search"]" />
+    <button type="submit" class="btn btn-primary mt-2">Tìm kiếm</button>
+</form>
+@if (!string.IsNullOrEmpty(Request.QueryString["search"]))
+{
+    <p class="text-info">Kết quả tìm kiếm cho: "<strong>@Request.QueryString["search"]</strong>"</p>
+}
+
+<div class="container">
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã Đơn Hàng</th>
+                <th>Khách Hàng</th>
+                <th>Ngày Đặt</th>
+                <th>Ngày giao</th>
+                <th>Tình trạng đơn hàng</th>
+                <th>Thanh Toán</th>
+                <th>Chi Tiết</th>
+                <th>Cập Nhật</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaDonHang</td>
+                    <td>
+                        @Html.ActionLink(item.KHACHHANG.HoTen, "Chitietnguoidung", "QLDonHang", new { id = item.KHACHHANG.MaKH }, new { @class = "btn btn-link" })
+                    </td>
+
+                    <td>@item.Ngaydat</td>
+                    <td>
+                        @(item.Tinhtranggiaohang == 3 && item.Ngaygiao.HasValue ? item.Ngaygiao.Value.ToString("dd/MM/yyyy") : "Chưa giao")
+                    </td>
+
+                    <td>
+                        @(Enum.GetName(typeof(OrderStatus), item.Tinhtranggiaohang))
+                    </td>
+                    <td>
+                        @(item.Dathanhtoan ?? false ? "Đã thanh toán" : "Chưa thanh toán")
+                    </td>
+                    <td>
+                        @Html.ActionLink("Xem", "ChiTietDonHang", "QLDonHang",
+                            new { MaDonHang = item.MaDonHang, MaKH = item.MaKH },
+                            new { @class = "btn btn-primary" })
+                    </td>
+                    <td>
+                        <form method="post" action="@Url.Action("CapNhatTrangThai", "QLDonHang")">
+                            <input type="hidden" name="maDonHang" value="@item.MaDonHang" />
+                            <select name="trangThai" class="form-select d-inline-block" style="width: 180px;">
+                                <option value="0" @(item.Tinhtranggiaohang == 0 ? "selected" : "")>Chờ xác nhận</option>
+                                <option value="1" @(item.Tinhtranggiaohang == 1 ? "selected" : "")>Đã xác nhận</option>
+                                <option value="2" @(item.Tinhtranggiaohang == 2 ? "selected" : "")>Đang giao</option>
+                                <option value="3" @(item.Tinhtranggiaohang == 3 ? "selected" : "")>Đã giao</option>
+                                <option value="4" @(item.Tinhtranggiaohang == 4 ? "selected" : "")>Đã hủy</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm mt-1">Cập nhật</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<div class="Trang">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("DanhSachDonHang", new { page = page }))
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".capNhatTrangThai").forEach(button => {
+            button.addEventListener("click", function () {
+                let maDonHang = this.getAttribute("data-id");
+                let trangThai = document.querySelector(`.trangThai[data-id="${maDonHang}"]`).value === "true";
+
+                fetch("/Admin/DonHang/CapNhatTrangThai", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ maDonHang: maDonHang, trangThai: trangThai })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Cập nhật thành công!");
+                            location.reload();
+                        } else {
+                            alert("Cập nhật thất bại!");
+                        }
+                    });
+            });
+        });
+    });
+</script>

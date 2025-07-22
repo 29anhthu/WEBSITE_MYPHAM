@@ -1,0 +1,45 @@
+﻿
+@model WebBanMyPham.Models.DONDATHANG
+
+@{
+    ViewBag.Title = "ChiTietDonHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chi tiết Đơn hàng - Mã Đơn Hàng: @Model.MaDonHang</h2>
+
+<div>
+    <p><strong>Ngày Đặt:</strong> @Model.Ngaydat?.ToString("dd/MM/yyyy") ?? "N/A"</p>
+    <p><strong>Trạng Thái Thanh Toán:</strong> @(Model.Dathanhtoan.HasValue && Model.Dathanhtoan.Value ? "Đã thanh toán" : "Chưa thanh toán")</p>
+    <p><strong>Trạng Thái Giao Hàng:</strong> @(Model.Tinhtranggiaohang.HasValue && Model.Dathanhtoan.Value ? "Đã giao" : "Đang giao")</p>
+</div>
+
+<h3>Danh sách Sản phẩm</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã Sản Phẩm</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Số Lượng</th>
+            <th>Đơn Giá</th>
+            <th>Thành Tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var chiTiet in Model.CHITIETDONHANGs)
+        {
+            <tr>
+                <td>@chiTiet.MaSP</td>
+                <td>@chiTiet.SanPham.TenSP</td> <!-- Giả sử bạn có liên kết tới bảng SanPham -->
+                <td>@chiTiet.Soluong</td>
+                <td>@String.Format("{0:C}", chiTiet.Dongia)</td>
+                <td>@String.Format("{0:C}", chiTiet.Soluong * chiTiet.Dongia)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("DanhSachDonHang", "GioHang", new { maKhachHang = Model.MaKH })" class="btn btn-primary">Quay lại Danh sách Đơn hàng</a>
+
+

@@ -1,0 +1,60 @@
+﻿@model List<WebBanMyPham.Models.VOUCHER>
+@{
+    ViewBag.Title = "Danh Sách Voucher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center text-primary">Danh Sách Voucher</h2>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered text-center">
+                <thead class="table-warning">
+                    <tr>
+                        <th>Mã Voucher</th>
+                        <th>Giảm Giá</th>
+                        <th>Hạn Sử Dụng</th>
+                        <th>Áp Dụng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var voucher in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@voucher.Code</td>
+                            <td class="text-success">
+                                @if (voucher.LoaiGiamGia)
+                                {
+                                    <span>@voucher.GiamGia%</span>
+                                }
+                                else
+                                {
+                                    <span>@String.Format("{0:#,##0}", voucher.GiamGia) VNĐ</span>
+                                }
+                            </td>
+                            <td class="text-danger">
+                                @(voucher.NgayHetHan.ToString("dd/MM/yyyy") ?? "Không có")
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("ApDungVoucher", "Giohang", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="code" value="@voucher.Code" />
+                                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                                    <button type="submit" class="btn btn-primary">Áp Dụng</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            ❌ Không có voucher nào khả dụng.
+        </div>
+    }
+</div>

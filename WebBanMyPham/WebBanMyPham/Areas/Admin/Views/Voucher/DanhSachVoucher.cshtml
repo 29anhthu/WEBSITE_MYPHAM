@@ -1,0 +1,61 @@
+﻿@model PagedList.IPagedList<WebBanMyPham.Models.VOUCHER>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Danh sách voucher";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh Sách Voucher</h2>
+<a href="@Url.Action("ThemVoucher", "Voucher", new { area = "Admin" })" class="btn btn-primary">
+    Thêm Mới Voucher
+</a>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Success"]
+    </div>
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã</th>
+            <th>Giảm Giá</th>
+            <th>Loại</th>
+            <th>Số Lượng</th>
+            <th>Ngày Bắt Đầu</th>
+            <th>Ngày Hết Hạn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Code</td>
+                <td>@item.GiamGia</td>
+                <td>@(item.LoaiGiamGia ? "Giảm %" : "Giảm số tiền")</td>
+                <td>@item.SoLuong</td>
+                <td>@(item.NgayBatDau.ToShortDateString() ?? "Chưa có ngày")</td>
+                <td>
+                    @(item.NgayHetHan.ToString("dd/MM/yyyy") ?? "Chưa có ngày") -
+                    <strong style="color: @(item.NgayHetHan < DateTime.Now ? "red" : "green")">
+                        @(item.NgayHetHan < DateTime.Now ? "Đã hết hạn" : "Còn hiệu lực")
+                    </strong>
+                <td>
+                    <a href="@Url.Action("SuaVoucher", "Voucher", new { id = item.MaVoucher })" class="btn btn-warning">Sửa</a>
+                    <form action="@Url.Action("XoaVoucher", "Voucher")" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.MaVoucher" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                    </form>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="Trang">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("DanhSachVoucher", new { page = page }))
+</div>
+
+

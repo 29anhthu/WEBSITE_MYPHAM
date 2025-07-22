@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "CapNhatThongTin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model WebBanMyPham.Models.KHACHHANG
+
+<div class="updateinfo-container">
+    <h2>Cập nhật thông tin cá nhân</h2>
+    @using (Html.BeginForm("CapNhatThongTin", "NguoiDung", FormMethod.Post))
+    {
+        <div class="updateinfo">
+            <div>
+                <label>Họ tên:</label>
+                @Html.TextBoxFor(m => m.HoTen)
+                @Html.ValidationMessage("LoiHoTen", null, new { @class = "validation-message" })
+            </div>
+
+            <div>
+                <label>Email:</label>
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessage("LoiEmail", null, new { @class = "validation-message" })
+            </div>
+
+            <div>
+                <label>Địa chỉ:</label>
+                @Html.TextBoxFor(m => m.DiachiKH)
+                @Html.ValidationMessage("LoiDiaChi", null, new { @class = "validation-message" })
+            </div>
+
+            <div>
+                <label>Điện thoại:</label>
+                @Html.TextBoxFor(m => m.DienthoaiKH)
+                @Html.ValidationMessage("LoiDienThoai", null, new { @class = "validation-message" })
+            </div>
+
+            <div>
+                <label>Ngày sinh:</label>
+                @Html.TextBoxFor(m => m.Ngaysinh, "{0:yyyy-MM-dd}", new { @type = "date" })
+                @Html.ValidationMessage("LoiNgaySinh", null, new { @class = "validation-message" })
+            </div>
+
+            <button type="submit">Cập nhật</button>
+        </div>
+    }
+</div>
+
+<style>
+    /* Khung tổng */
+    .updateinfo-container {
+        width: 60%;
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Tiêu đề khung */
+        .updateinfo-container h2 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+    /* Khung các trường thông tin */
+    .updateinfo div {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Nhãn */
+    .updateinfo label {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    /* Ô nhập liệu */
+    .updateinfo input[type="text"],
+    .updateinfo input[type="email"],
+    .updateinfo input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        color: #333;
+        box-sizing: border-box;
+    }
+
+    /* Thông báo lỗi */
+    .validation-message {
+        color: #e74c3c;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    /* Nút cập nhật */
+    .updateinfo button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        /* Hiệu ứng hover cho nút */
+        .updateinfo button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+</style>

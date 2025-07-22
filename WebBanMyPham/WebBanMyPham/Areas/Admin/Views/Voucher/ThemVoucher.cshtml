@@ -1,0 +1,57 @@
+﻿@model WebBanMyPham.Models.VOUCHER
+@{
+    ViewBag.Title = "Thêm voucher";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Thêm Voucher</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@using (Html.BeginForm("ThemVoucher", "Voucher", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="Code">Mã Voucher:</label>
+        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div class="form-group">
+        <label>Giảm Giá:</label>
+        @Html.TextBoxFor(m => m.GiamGia, new { @class = "form-control", type = "number", required = "required" })
+        @Html.ValidationMessageFor(m => m.GiamGia, "", new { @class = "text-danger" }) <!-- Hiển thị lỗi -->
+    </div>
+
+    <div class="form-group">
+        <label>Loại Giảm Giá:</label>
+        @Html.DropDownListFor(m => m.LoaiGiamGia, new SelectList(new[] {
+            new { Value = "true", Text = "Giảm theo %" },
+            new { Value = "false", Text = "Giảm theo số tiền" }
+        }, "Value", "Text"), new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Số Lượng:</label>
+        @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control", type = "number", required = "required" })
+        @Html.ValidationMessageFor(m => m.SoLuong, "", new { @class = "text-danger" }) <!-- Hiển thị lỗi -->
+    </div>
+
+    <div class="form-group">
+        <label>Ngày bắt đầu:</label>
+        @Html.TextBoxFor(m => m.NgayBatDau, new { @class = "form-control", type = "date", required = "required" })
+        @Html.ValidationMessageFor(m => m.NgayBatDau, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Ngày kết thúc:</label>
+        @Html.TextBoxFor(m => m.NgayHetHan, new { @class = "form-control", type = "date", required = "required" })
+        @Html.ValidationMessageFor(m => m.NgayHetHan, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm Mới</button>
+    <a href="@Url.Action("DanhSachVoucher", "Voucher")" class="btn btn-secondary">Quay Lại</a>
+}

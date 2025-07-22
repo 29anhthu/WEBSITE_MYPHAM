@@ -1,0 +1,82 @@
+﻿@model WebBanMyPham.Models.SanPham
+@{
+        ViewBag.Title = "XoaSanPham";
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    }
+@*<h3 style="margin-top: 90px; margin-left: 350px; font-size:20px">Xóa sản phẩm</h3>*@
+
+<h3 style="color: red">Không thể khôi phục sau khi xóa!Xác nhận xóa?</h3>
+<div>
+    <hr />  
+    <dl class="dl-horizontal">
+        <dt>
+            Tên sản phẩm:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenSP)
+        </dd>
+
+        <dt>
+            Giá bán:
+        </dt>
+
+        <dd>
+            @String.Format("{0:#,##0}", Model.Giaban) VNĐ
+        </dd>
+
+        <dt>
+            Mô tả:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mota)
+        </dd>
+
+        <dt>
+            Ảnh bìa
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/Upload/image_SP/" + Model.Anhbia)" width="120px" />
+        </dd>
+
+        <dt>
+            Ngày cập nhật:
+        </dt>
+
+        <dd>
+            @String.Format("{0:dd/MM/yyyy}", Model.Ngaycapnhat)
+        </dd>
+
+        <dt>
+            Số lượng tồn:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Soluongton)
+        </dd>
+        <dt>
+            Loại sản phẩm:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoaiSP.TenLoai)
+        </dd>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color" style="margin-left:850px">
+                <input type="submit" value="Xóa" class="btn btn-default" /> |
+                @Html.ActionLink("Sửa", "SuaSanPham", new { id = Model.MaSP }) |
+                @Html.ActionLink("Quay lại", "SanPham","QLSanPham")
+            </div>
+        }
+    </dl>
+</div>
+
+
+
+

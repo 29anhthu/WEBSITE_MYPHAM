@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Thanh Toán Thành Công";
+}
+
+<div class="success-container">
+    <h1>Thanh Toán Thành Công!</h1>
+    <p>Cảm ơn bạn đã mua hàng.</p>
+    <div class="home-link">
+        @Html.ActionLink("Trở về trang chủ", "DanhSachSanPham", "SanPham", null, new { @class = "btn-home" })
+    </div>
+</div>
+
+<style>
+    /* Styling cho giao diện thanh toán thành công */
+    .success-container {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 20px;
+        text-align: center;
+        background-color: #f8f8f8;
+        border-radius: 8px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    }
+
+        .success-container h1 {
+            color: #4CAF50;
+        }
+
+    .order-details p {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .back-home {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+        .back-home:hover {
+            background-color: #45a049;
+        }
+</style>
