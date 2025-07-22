@@ -1,4 +1,4 @@
-# Nhom7_T6C3
+# LANT COSMETIC
 "Công ty LANT là một công ty chuyên kinh doanh các mặt hàng về mỹ phẩm với quy mô tầm trung. Công ty đã xây dựng được uy tín trong lĩnh vực mỹ phẩm và đã có được số lượng khách hàng ổn định.
 
 Để mở rộng mô hình kinh doanh công ty mong muốn xây dựng được một hệ thống cửa hàng trực tuyến để tiếp cận được với nhiều nguồn khách hàng.
